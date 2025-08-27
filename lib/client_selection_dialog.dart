@@ -46,7 +46,6 @@ class _ClientSelectionDialogState extends State<ClientSelectionDialog> {
                 (item) => {
                   "code": item['code'] ?? '',
                   "nom": item['nom'] ?? '',
-                  "devise": item['devise'] ?? '',
                 },
               )
               .toList();
@@ -165,7 +164,7 @@ class _ClientSelectionDialogState extends State<ClientSelectionDialog> {
                                 ),
                               ),
                               subtitle: Text(
-                                "Code: ${client['code']} | Devise: ${client['devise']}",
+                                "Code: ${client['code']}",
                                 style: const TextStyle(fontSize: 13),
                               ),
                               onTap: () => Navigator.pop(context, client),

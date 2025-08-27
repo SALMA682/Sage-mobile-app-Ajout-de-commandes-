@@ -26,6 +26,12 @@ class _SiteSelectionDialogState extends State<SiteSelectionDialog> {
     searchController.addListener(_filterSites);
   }
 
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
   Future<void> fetchSites() async {
     setState(() {
       isLoading = true;
@@ -150,8 +156,14 @@ class _SiteSelectionDialogState extends State<SiteSelectionDialog> {
                                   ),
                                 ),
                                 subtitle: Text("Code: ${site['code']}"),
-                                onTap: () =>
-                                    Navigator.pop(context, site['code']),
+                                onTap: () {
+                                  final selectedCode = site['code'];
+                                  WidgetsBinding.instance.addPostFrameCallback((
+                                    _,
+                                  ) {
+                                    Navigator.pop(context, selectedCode);
+                                  });
+                                },
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -186,7 +198,11 @@ class _SiteSelectionDialogState extends State<SiteSelectionDialog> {
             ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.pop(context);
+            });
+          },
           child: const Text('Fermer'),
         ),
       ],

@@ -47,7 +47,6 @@ class _ClientPageState extends State<ClientPage> {
                 (item) => {
                   "code": item['code'] ?? '',
                   "nom": item['nom'] ?? '',
-                  "devise": item['devise'] ?? '',
                 },
               )
               .toList();
@@ -71,10 +70,7 @@ class _ClientPageState extends State<ClientPage> {
       filteredClients = clients.where((client) {
         final code = client['code'].toLowerCase();
         final nom = client['nom'].toLowerCase();
-        final devise = client['devise'].toLowerCase();
-        return code.contains(query) ||
-            nom.contains(query) ||
-            devise.contains(query);
+        return code.contains(query) || nom.contains(query);
       }).toList();
       currentPage = 1; // Reset page après filtrage
     });
@@ -106,8 +102,8 @@ class _ClientPageState extends State<ClientPage> {
     final totalPages = (filteredClients.length / itemsPerPage).ceil();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sélectionner un client'),
-        backgroundColor: Colors.blue,
+        title: const Text('Liste des clients'),
+        backgroundColor: Colors.teal,
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -118,7 +114,7 @@ class _ClientPageState extends State<ClientPage> {
                   child: TextField(
                     controller: searchController,
                     decoration: InputDecoration(
-                      hintText: 'Rechercher par nom, code ou devise...',
+                      hintText: 'Rechercher par nom ou code...',
                       prefixIcon: const Icon(Icons.search),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -151,7 +147,7 @@ class _ClientPageState extends State<ClientPage> {
                             style: const TextStyle(fontWeight: FontWeight.w600),
                           ),
                           subtitle: Text(
-                            "Code: ${client['code']} | Devise: ${client['devise']}",
+                            "Code: ${client['code']}",
                             style: const TextStyle(fontSize: 13),
                           ),
                           trailing: ElevatedButton.icon(

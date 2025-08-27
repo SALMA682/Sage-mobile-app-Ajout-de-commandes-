@@ -188,7 +188,11 @@ class _TypeSelectionDialogState extends State<TypeSelectionDialog> {
             ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context, types),
+          onPressed: () {
+            if (mounted) {
+              Future.microtask(() => Navigator.of(context).pop());
+            }
+          },
           child: const Text('Fermer'),
         ),
       ],
